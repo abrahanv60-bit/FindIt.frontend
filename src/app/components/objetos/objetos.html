@@ -1,0 +1,41 @@
+<div class="min-h-screen bg-slate-100 p-6">
+  <div class="mx-auto max-w-6xl">
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold text-blue-700">FindIt</h1>
+
+      <p class="mt-2 text-gray-600">Sistema de objetos perdidos y encontrados</p>
+    </header>
+
+    <h2 class="mb-5 text-2xl font-semibold">Objetos publicados</h2>
+
+    @if (cargando()) {
+      <p>Cargando objetos...</p>
+    } @else if (error()) {
+      <p class="text-red-600">{{ error() }}</p>
+    } @else if (objetos().length === 0) {
+      <p>No hay objetos publicados todavía.</p>
+    } @else {
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        @for (objeto of objetos(); track objeto.id) {
+          <div class="rounded-xl bg-white p-5 shadow">
+            <span class="rounded bg-blue-100 px-3 py-1 text-sm text-blue-700">
+              {{ objeto.tipo }}
+            </span>
+
+            <h3 class="mt-4 text-xl font-bold">
+              {{ objeto.titulo }}
+            </h3>
+
+            <p class="mt-2 text-gray-600">
+              {{ objeto.descripcion }}
+            </p>
+
+            <p class="mt-4 text-sm">📍 {{ objeto.ubicacion }}</p>
+
+            <p class="mt-2 text-sm text-green-600">Estado: {{ objeto.estado }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

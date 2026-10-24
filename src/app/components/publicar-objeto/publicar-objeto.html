@@ -1,0 +1,79 @@
+<div class="min-h-screen bg-slate-100 p-6">
+  <div class="mx-auto max-w-xl rounded-2xl bg-white p-8 shadow-lg">
+    <h1 class="mb-2 text-center text-3xl font-bold text-blue-700">Publicar objeto</h1>
+
+    <p class="mb-8 text-center text-gray-500">Registra un objeto perdido o encontrado</p>
+
+    <form (ngSubmit)="publicar()" #form="ngForm">
+      <label class="mb-2 block font-medium"> Título </label>
+
+      <input
+        type="text"
+        name="titulo"
+        [(ngModel)]="objeto.titulo"
+        required
+        placeholder="Ej: Mochila negra"
+        class="mb-5 w-full rounded-lg border border-gray-300 p-3"
+      />
+
+      <label class="mb-2 block font-medium"> Descripción </label>
+
+      <textarea
+        name="descripcion"
+        [(ngModel)]="objeto.descripcion"
+        required
+        rows="4"
+        placeholder="Describe el objeto"
+        class="mb-5 w-full rounded-lg border border-gray-300 p-3"
+      ></textarea>
+
+      <label class="mb-2 block font-medium"> Tipo de publicación </label>
+
+      <select
+        name="tipo"
+        [(ngModel)]="objeto.tipo"
+        required
+        class="mb-5 w-full rounded-lg border border-gray-300 p-3"
+      >
+        <option value="" disabled>Selecciona una opción</option>
+        <option value="Perdido">Perdido</option>
+        <option value="Encontrado">Encontrado</option>
+      </select>
+
+      <label class="mb-2 block font-medium"> Ubicación </label>
+
+      <input
+        type="text"
+        name="ubicacion"
+        [(ngModel)]="objeto.ubicacion"
+        required
+        placeholder="Ej: Biblioteca UPDS"
+        class="mb-6 w-full rounded-lg border border-gray-300 p-3"
+      />
+
+      <button
+        type="submit"
+        [disabled]="form.invalid || cargando()"
+        class="w-full rounded-lg bg-blue-600 p-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+      >
+        {{ cargando() ? 'Publicando...' : 'Publicar objeto' }}
+      </button>
+
+      @if (mensaje()) {
+        <p class="mt-4 text-center text-green-600">
+          {{ mensaje() }}
+        </p>
+
+        <a routerLink="/" class="mt-3 block text-center font-medium text-blue-600 hover:underline">
+          Ver publicaciones
+        </a>
+      }
+
+      @if (error()) {
+        <p class="mt-4 text-center text-red-600">
+          {{ error() }}
+        </p>
+      }
+    </form>
+  </div>
+</div>

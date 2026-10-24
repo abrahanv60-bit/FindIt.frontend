@@ -1,0 +1,70 @@
+<div class="flex min-h-screen items-center justify-center bg-slate-100 p-4">
+  <div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
+    <h1 class="mb-2 text-center text-3xl font-bold text-blue-700">Encuéntralo</h1>
+
+    <p class="mb-8 text-center text-gray-500">Crea tu cuenta</p>
+
+    <form (ngSubmit)="registrar()" #form="ngForm">
+      <label class="mb-2 block font-medium"> Nombre completo </label>
+
+      <input
+        type="text"
+        name="nombre"
+        [(ngModel)]="nombre"
+        required
+        placeholder="Tu nombre completo"
+        class="mb-5 w-full rounded-lg border border-gray-300 p-3"
+      />
+
+      <label class="mb-2 block font-medium"> Correo electrónico </label>
+
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        required
+        email
+        placeholder="correo@ejemplo.com"
+        class="mb-5 w-full rounded-lg border border-gray-300 p-3"
+      />
+
+      <label class="mb-2 block font-medium"> Contraseña </label>
+
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+        minlength="8"
+        autocomplete="new-password"
+        placeholder="Mínimo 8 caracteres"
+        class="mb-6 w-full rounded-lg border border-gray-300 p-3"
+      />
+
+      <button
+        type="submit"
+        [disabled]="form.invalid || cargando()"
+        class="w-full rounded-lg bg-blue-600 p-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+      >
+        {{ cargando() ? 'Registrando...' : 'Crear cuenta' }}
+      </button>
+
+      @if (mensaje()) {
+        <p class="mt-4 text-center text-green-600">
+          {{ mensaje() }}
+        </p>
+      }
+
+      @if (error()) {
+        <p class="mt-4 text-center text-red-600">
+          {{ error() }}
+        </p>
+      }
+    </form>
+
+    <p class="mt-6 text-center text-sm text-gray-500">
+      ¿Ya tienes una cuenta?
+      <a routerLink="/login" class="font-semibold text-blue-600"> Inicia sesión </a>
+    </p>
+  </div>
+</div>
