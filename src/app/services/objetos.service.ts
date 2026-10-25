@@ -22,4 +22,24 @@ export class ObjetosService {
 
     return this.http.post<Objeto>('/api/objetos', datos, { headers });
   }
+
+  eliminarObjeto(id: number) {
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.delete<void>(`/api/objetos/${id}`, { headers });
+  }
+
+  editarObjeto(id: number, datos: NuevoObjeto & { estado: string }) {
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.put<void>(`/api/objetos/${id}`, datos, { headers });
+  }
 }

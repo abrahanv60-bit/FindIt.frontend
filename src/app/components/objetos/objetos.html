@@ -18,21 +18,90 @@
       <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         @for (objeto of objetos(); track objeto.id) {
           <div class="rounded-xl bg-white p-5 shadow">
-            <span class="rounded bg-blue-100 px-3 py-1 text-sm text-blue-700">
-              {{ objeto.tipo }}
-            </span>
+            @if (objetoEditandoId() === objeto.id) {
+              <h3 class="mb-4 text-xl font-bold">Editar objeto</h3>
 
-            <h3 class="mt-4 text-xl font-bold">
-              {{ objeto.titulo }}
-            </h3>
+              <input
+                [(ngModel)]="formularioEdicion.titulo"
+                class="mb-3 w-full rounded border p-2"
+                placeholder="Título"
+              />
 
-            <p class="mt-2 text-gray-600">
-              {{ objeto.descripcion }}
-            </p>
+              <textarea
+                [(ngModel)]="formularioEdicion.descripcion"
+                class="mb-3 w-full rounded border p-2"
+                placeholder="Descripción"
+              ></textarea>
 
-            <p class="mt-4 text-sm">📍 {{ objeto.ubicacion }}</p>
+              <select [(ngModel)]="formularioEdicion.tipo" class="mb-3 w-full rounded border p-2">
+                <option value="Perdido">Perdido</option>
+                <option value="Encontrado">Encontrado</option>
+              </select>
 
-            <p class="mt-2 text-sm text-green-600">Estado: {{ objeto.estado }}</p>
+              <input
+                [(ngModel)]="formularioEdicion.ubicacion"
+                class="mb-3 w-full rounded border p-2"
+                placeholder="Ubicación"
+              />
+
+              <select [(ngModel)]="formularioEdicion.estado" class="mb-3 w-full rounded border p-2">
+                <option value="Disponible">Disponible</option>
+                <option value="Recuperado">Recuperado</option>
+              </select>
+
+              <div class="flex gap-2">
+                <button
+                  (click)="guardarEdicion()"
+                  [disabled]="guardando()"
+                  class="rounded bg-green-500 px-4 py-2 text-white disabled:opacity-50"
+                >
+                  {{ guardando() ? 'Guardando...' : 'Guardar' }}
+                </button>
+
+                <button
+                  (click)="cancelarEdicion()"
+                  [disabled]="guardando()"
+                  class="rounded bg-gray-500 px-4 py-2 text-white"
+                >
+                  Cancelar
+                </button>
+              </div>
+            } @else {
+              <span class="rounded bg-blue-100 px-3 py-1 text-sm text-blue-700">
+                {{ objeto.tipo }}
+              </span>
+
+              <h3 class="mt-4 text-xl font-bold">
+                {{ objeto.titulo }}
+              </h3>
+
+              <p class="mt-2 text-gray-600">
+                {{ objeto.descripcion }}
+              </p>
+
+              <p class="mt-4 text-sm">📍 {{ objeto.ubicacion }}</p>
+
+              <p class="mt-2 text-sm text-green-600">Estado: {{ objeto.estado }}</p>
+
+              @if (auth.usuarioActual()?.id === objeto.usuarioId) {
+                <div class="mt-4 flex gap-2">
+                  <button
+                    (click)="editarObjeto(objeto)"
+                    class="rounded-lg bg-yellow-500 px-4 py-2 text-white"
+                  >
+                    Editar
+                  </button>
+
+                  <button
+                    (click)="eliminarObjeto(objeto.id)"
+                    [disabled]="eliminandoId() === objeto.id"
+                    class="rounded-lg bg-red-500 px-4 py-2 text-white disabled:opacity-50"
+                  >
+                    {{ eliminandoId() === objeto.id ? 'Eliminando...' : 'Eliminar' }}
+                  </button>
+                </div>
+              }
+            }
           </div>
         }
       </div>
